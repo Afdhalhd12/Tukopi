@@ -20,6 +20,8 @@ import UpdateProduct from "../pages/admin/UpdateProduct";
 import StockManagement from "../pages/admin/StockManagement";
 import CreateProductSize from "../pages/admin/CreateProductSize";
 import AdminRoute from "../components/AdminRoute";
+import CreateProduct from "../pages/admin/CreateProduct";
+import DetailOrderHistory from "../pages/DetailOrderHistory";
 
 
 export const router = createBrowserRouter([
@@ -30,6 +32,7 @@ export const router = createBrowserRouter([
             { path: "/", element: <App /> },
             { path: "/profile", element: <Profile /> },
             { path: "/orderhistory", element: <OrderHistory /> },
+            { path: "/orderhistory/:id", element: <DetailOrderHistory/> },
             { path: "/editprofile", element: <EditProfile /> },
             { path: "/address", element: <Address /> },
             { path: "/createaddress", element: <CreateAddress /> },
@@ -54,6 +57,10 @@ export const router = createBrowserRouter([
                     {
                         path: "productmanagement",
                         element: <ProductManagement />,
+                    },
+                    {
+                        path: "createproduct",
+                        element: <CreateProduct/>,
                     },
                     {
                         path: "updateproduct/:id",

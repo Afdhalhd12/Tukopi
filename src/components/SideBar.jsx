@@ -12,7 +12,7 @@ export default function SideBar() {
             <div>
                 <aside className="fixed left-0 lg:flex flex-col h-screen border-r w-80 border-[#d1cece] bg-[#f3f3f3]">
                     <div className="px-4 mb-6 mt-20">
-                        <div className="font-headline-md text-headline-md text-primary text-2xl mb-1 font-oswald">Afdhal Hadi Solahudin</div>
+                        <div className="font-headline-md text-headline-md text-primary text-2xl mb-1 font-oswald">Afdhal</div>
                         <div className="font-label-bold text-label-bold text-secondary text-[#D4F931] font-inter mt-2">User</div>
                     </div>
                     <div className="px-4 mb-6 mt-1">

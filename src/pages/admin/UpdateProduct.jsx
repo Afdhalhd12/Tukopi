@@ -188,6 +188,12 @@ export default function UpdateProduct() {
                                             </div>
 
                                         </div>
+                                        <div className="mt-5">
+                                            <label className="font-inter">
+                                                Description
+                                            </label>
+                                            <textarea placeholder="Type Here" value={description} onChange={(e) => setDescription(e.target.value)} className="w-full font-inter bg-[#f3f3f3] rounded-xl p-3 border border-[#737373]" />
+                                        </div>
 
                                         {message && (
                                             <p className="text-red-500 mt-4">

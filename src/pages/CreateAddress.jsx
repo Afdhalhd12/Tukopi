@@ -14,42 +14,6 @@ export default function CreateAddress() {
     const navigate = useNavigate();
 
 
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const token = localStorage.getItem("token");
-
-    //     try {
-    //         const response = await fetch("http://localhost:3000/address", {
-    //             method: "POST",
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //                 "Content-Type": "application/json"
-    //             },
-    //             body: JSON.stringify({
-    //                 addressLine,
-    //                 city,
-    //                 postalCode,
-    //                 label,
-    //                 notes,
-    //                 isPrimary
-    //             })
-    //         })
-
-    //         const data = await response.json();
-
-    //         if (!response.ok) {
-    //             throw new Error(data.message || "Failed to create address");
-    //         }
-
-    //         setMessage(data.message || "Success");
-    //         alert(data.message);
-    //         navigate('/address');
-    //     } catch (error) {
-    //         setMessage(error.message);
-    //     }
-    // }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {

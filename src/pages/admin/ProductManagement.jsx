@@ -165,7 +165,9 @@ export default function ProductManagement() {
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <span className="text-sm text-gray-500">Total Products: <b className="text-gray-800">{totalProducts}</b></span>
-                                    <button className="text-sm font-semibold text-gray-700 border border-gray-300 rounded-lg px-4 py-1.5">↓ Export Product</button>
+                                    <Link to="/admin/createproduct">
+                                        <button className="text-sm font-semibold text-gray-700 border border-gray-300 rounded-lg px-4 py-1.5">Create Product</button>
+                                    </Link>
                                 </div>
                             </div>
 
@@ -185,7 +187,7 @@ export default function ProductManagement() {
                                         <tr key={product.id} className="hover:bg-gray-50">
                                             <td className="px-5 py-4">
                                                 <div className="flex gap-4">
-                                                    <img src={product.image} className="w-10 h-10 rounded-full" />
+                                                    <img src={product.image} className="w-15 h-12 object-cover rounded-full" />
                                                     <div className="flex items-center">
                                                         <p className="font-semibold text-gray-800">{product.name}</p>
                                                     </div>
