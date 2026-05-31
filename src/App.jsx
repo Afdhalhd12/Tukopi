@@ -10,8 +10,6 @@ import white from "./assets/white.jpg";
 import red from "./assets/red.jpg";
 import brown from "./assets/brown.jpg";
 import sell from "./assets/white-sell.png";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaTruckFast } from "react-icons/fa6";
 import { FaShieldAlt } from "react-icons/fa";
 import { RiCustomerService2Fill } from "react-icons/ri";

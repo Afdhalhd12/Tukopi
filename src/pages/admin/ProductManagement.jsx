@@ -148,8 +148,8 @@ export default function ProductManagement() {
                                     </select>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <span className="text-sm text-gray-500">Total Users: <b className="text-gray-800">{totalProducts}</b></span>
-                                    <button className="text-sm font-semibold text-gray-700 border border-gray-300 rounded-lg px-4 py-1.5">↓ Export Users</button>
+                                    <span className="text-sm text-gray-500">Total Products: <b className="text-gray-800">{totalProducts}</b></span>
+                                    <button className="text-sm font-semibold text-gray-700 border border-gray-300 rounded-lg px-4 py-1.5">↓ Export Product</button>
                                 </div>
                             </div>
 
@@ -188,7 +188,7 @@ export default function ProductManagement() {
                                                             <MdOutlineEdit size={15} className="text-[#737373]" />
                                                         </button>
                                                     </Link>
-                                                    <Link to={`/admin/${product.id}/stock`}>
+                                                    <Link to={`/admin/productmanagement/${product.id}/stock`}>
                                                         <button className="w-8 h-8 border border-[#E5E5E5] bg-[#f8f8f8] rounded-xl flex items-center justify-center hover:bg-[#E5E5E5] transition">
                                                             <IoIosAdd size={15} className="text-[#737373]" />
                                                         </button>
@@ -205,7 +205,7 @@ export default function ProductManagement() {
 
                             {/* Pagination */}
                             <div className="flex items-center justify-between px-5 py-3 border-t border-gray-200">
-                                <p className="text-sm text-gray-500">Showing {products.length} to 5 of {totalProducts} Users</p>
+                                <p className="text-sm text-gray-500">Showing {products.length} to 5 of {totalProducts} Products</p>
                                 <div className="flex items-center gap-1">
                                     <PaginationComp currentPage={currentPage} onPageChange={onPageChange} />
                                 </div>

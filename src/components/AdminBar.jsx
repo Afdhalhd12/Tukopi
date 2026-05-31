@@ -1,12 +1,15 @@
 import { CiLocationOn, CiSettings } from "react-icons/ci";
 import { IoPerson } from "react-icons/io5";
 import { LuBox } from "react-icons/lu";
-import { MdOutlinePayment } from "react-icons/md";
+import { MdOutlinePayment, MdProductionQuantityLimits } from "react-icons/md";
+import { RiDashboardHorizontalLine } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 
 
 export default function AdminBar() {
-     const location = useLocation();
+    const location = useLocation();
+    const isUserManagementActive = location.pathname === "/admin/usermanagement" || location.pathname.startsWith("/admin/updateuser/");
+    const isProductManagementActive = location.pathname === "/admin/productmanagement" || location.pathname.startsWith("/admin/updateproduct/") || location.pathname.startsWith("/admin/productmanagement") ;
     return (
         <>
             <div>
@@ -17,39 +20,27 @@ export default function AdminBar() {
                     </div>
                     <div className="px-4 mb-6 mt-1">
                         <div className="">
-                            <Link to="/profile">
-                                <button className={location.pathname === "/dashboard" || location.pathname === "/dashboard"  ? "h-full font-inter border-s-5 flex items-center text-[#D4F931]  gap-2 text-[16px] bg-[#f7fce4] w-full p-3 rounded-2xl" : "h-full font-inter flex items-center gap-2 text-[16px] text-[#585757]  w-full p-3 rounded-2xl"}>
-                                    <IoPerson size={20} /> Dashboard
+                            <Link to="/dashboard">
+                                <button className={location.pathname === "/dashboard" || location.pathname === "/dashboard" ? "h-full font-inter border-s-5 flex items-center text-[#D4F931]  gap-2 text-[16px] bg-[#f7fce4] w-full p-3 rounded-2xl" : "h-full font-inter flex items-center gap-2 text-[16px] text-[#585757]  w-full p-3 rounded-2xl"}>
+                                    <RiDashboardHorizontalLine  size={20} /> Dashboard
                                 </button>
                             </Link>
                         </div>
 
                         <div className="mt-5">
                             <Link to="/admin/usermanagement">
-                                <button className={location.pathname === "/admin/usermanagement" || location.pathname === "/admin/updateuser/"   ? "h-full font-inter border-s-5 flex items-center text-[#D4F931]  gap-2 text-[16px] bg-[#f7fce4] w-full p-3 rounded-2xl" : "h-full font-inter flex items-center gap-2 text-[16px] text-[#585757]  w-full p-3 rounded-2xl"}>
+                                <button className={isUserManagementActive ? "h-full font-inter border-s-5 flex items-center text-[#D4F931]  gap-2 text-[16px] bg-[#f7fce4] w-full p-3 rounded-2xl" : "h-full font-inter flex items-center gap-2 text-[16px] text-[#585757]  w-full p-3 rounded-2xl"}>
                                     <IoPerson size={20} />User Management
                                 </button>
                             </Link>
                         </div>
 
                         <div className="mt-5">
-                            <Link to="/address">
-                            <button className={location.pathname === "/address" || location.pathname === "/createaddress" ? "h-full font-inter border-s-5 flex items-center text-[#D4F931]  gap-2 text-[16px] bg-[#f7fce4] w-full p-3 rounded-2xl" : "h-full font-inter flex items-center gap-2 text-[16px] text-[#585757]  w-full p-3 rounded-2xl"}>
-                                <CiLocationOn size={20} /> Address
-                            </button>
+                            <Link to="/admin/productmanagement">
+                                <button className={isProductManagementActive ? "h-full font-inter border-s-5 flex items-center text-[#D4F931]  gap-2 text-[16px] bg-[#f7fce4] w-full p-3 rounded-2xl" : "h-full font-inter flex items-center gap-2 text-[16px] text-[#585757]  w-full p-3 rounded-2xl"}>
+                                    <MdProductionQuantityLimits  size={20} /> Product
+                                </button>
                             </Link>
-                        </div>
-
-                        <div className="mt-5">
-                            <button className="h-full font-inter flex items-center gap-2 text-[16px] text-[#585757]  w-full p-3 rounded-2xl">
-                                <MdOutlinePayment size={20} /> Payment
-                            </button>
-                        </div>
-
-                        <div className="mt-5">
-                            <button className="h-full font-inter flex items-center gap-2 text-[16px] text-[#585757]  w-full p-3 rounded-2xl">
-                                <CiSettings size={20} /> Settings
-                            </button>
                         </div>
 
                     </div>

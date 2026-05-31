@@ -208,7 +208,7 @@ export default function ProductList() {
                                             {product.name}
                                         </p>
                                         <p className="font-inter text-sm mt-1 text-[#737373]">
-                                            Rp. {product.price}
+                                            Rp. {product.price.toLocaleString('id-ID')}
                                         </p>
                                     </div>
                                 </div>

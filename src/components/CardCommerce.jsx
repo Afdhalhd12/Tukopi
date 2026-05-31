@@ -8,7 +8,7 @@ export default function CardCommerce({ product }) {
             </div>
             <div className="flex justify-between mt-2">
                 <p className="font-inter font-semibold">{product.name}</p>
-                <p className="font-inter font-bold">{product.price}</p>
+                <p className="font-inter font-bold">Rp. {product.price.toLocaleString('id-ID')}</p>
             </div>
             <div>
                 <p className="text-sm font-inter">{product.category}</p>
