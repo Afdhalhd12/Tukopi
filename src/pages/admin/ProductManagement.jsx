@@ -8,6 +8,7 @@ import SearchComp from "../../components/SearchComp";
 import { Link } from "react-router-dom";
 import { MdOutlineDelete, MdOutlineEdit } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
+import Swal from "sweetalert2";
 
 export default function ProductManagement() {
 
@@ -59,19 +60,34 @@ export default function ProductManagement() {
     }
 
     async function handleDelete(id) {
-        const confirmDelete = window.confirm("Yakin ingin menghapus product ini?");
-
-        if (!confirmDelete) {
-            return;
-        }
-
         try {
-            await api.delete(`/product/${id}`);
+            const result = await Swal.fire({
+                title: "Hapus?",
+                text: "Anda Ingin Menghapus Product Ini.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya, Hapus",
+                cancelButtonText: "Batal",
+                confirmButtonColor: "#ef4444",
+                cancelButtonColor: "#6b7280",
+                reverseButtons: true,
+            });
 
-            // prev digunakan untuk mengambil hasil state sebelumnya
-            setProducts((prev) => prev.filter((item) => item.id !== id));
+            if (result.isConfirmed) {
+                await api.delete(`/product/${id}`);
 
-            alert("Product berhasil dihapus");
+                // prev digunakan untuk mengambil hasil state sebelumnya
+                setProducts((prev) => prev.filter((item) => item.id !== id));
+                await Swal.fire({
+                    icon: "success",
+                    title: "Berhasil Menghapus Product",
+                    text: "Sampai jumpa kembali!",
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+
+            }
+
         } catch (error) {
             console.log(error.response?.data || error.message);
             alert("Gagal menghapus product");

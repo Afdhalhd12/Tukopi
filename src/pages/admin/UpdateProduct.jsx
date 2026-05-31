@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../utils/API";
 import AdminBar from "../../components/AdminBar";
+import Swal from "sweetalert2";
 
 export default function UpdateProduct() {
     const { id } = useParams();
@@ -48,7 +49,14 @@ export default function UpdateProduct() {
         try {
             const response = await api.put("/product/" + id, formData);
 
-            alert(response.data.message);
+            await Swal.fire({
+                icon: "success",
+                title: "Berhasil Memperbarui Product",
+                text: "Sampai jumpa kembali!",
+                timer: 1500,
+                showConfirmButton: false,
+            });
+
             navigate("/admin/productmanagement");
 
         } catch (error) {

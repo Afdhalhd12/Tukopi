@@ -7,9 +7,10 @@ import PaginationComp from "../../components/PaginationComp";
 import SearchComp from "../../components/SearchComp";
 import { Link } from "react-router-dom";
 import { MdOutlineDelete, MdOutlineEdit } from "react-icons/md";
+import Swal from "sweetalert2";
 
 export default function UserManagement() {
-    
+
     const [users, setUsers] = useState(null);
     const [search, setSearch] = useState("");
     const [totalUsers, setTotalUsers] = useState(0);
@@ -53,22 +54,43 @@ export default function UserManagement() {
     }
 
     async function handleDelete(id) {
-        const confirmDelete = window.confirm("Yakin ingin menghapus alamat ini?");
-
-        if (!confirmDelete) {
-            return;
-        }
-
         try {
-            await api.delete(`/getuser/${id}`);
+            const result = await Swal.fire({
+                title: "Hapus?",
+                text: "Anda Ingin Menghapus Pengguna Ini.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya, Hapus",
+                cancelButtonText: "Batal",
+                confirmButtonColor: "#ef4444",
+                cancelButtonColor: "#6b7280",
+                reverseButtons: true,
+            });
 
-            // prev digunakan untuk mengambil hasil state sebelumnya
-            setUsers((prev) => prev.filter((item) => item.id !== id));
+            if (result.isConfirmed) {
+                await api.delete(`/getuser/${id}`);
+                // prev digunakan untuk mengambil hasil state sebelumnya
+                setUsers((prev) => prev.filter((item) => item.id !== id));
 
-            alert("User berhasil dihapus");
+                await Swal.fire({
+                    icon: "success",
+                    title: "Berhasil Menghapus Pengguna",
+                    text: "Sampai jumpa kembali!",
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+
+            }
         } catch (error) {
-            console.log(error.response?.data || error.message);
-            alert("Gagal menghapus User");
+            Swal.fire({
+                icon: "error",
+                title: "Gagal",
+                text:
+                    error.response?.data?.message ||
+                    error.message ||
+                    "Terjadi kesalahan",
+                confirmButtonColor: "#ef4444",
+            });
         }
     }
 
@@ -143,7 +165,7 @@ export default function UserManagement() {
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <span className="text-sm text-gray-500">Total Users: <b className="text-gray-800">{totalUsers}</b></span>
-                                    <button  className="text-sm font-semibold text-gray-700 border border-gray-300 rounded-lg px-4 py-1.5">↓ Export Users</button>
+                                    <button className="text-sm font-semibold text-gray-700 border border-gray-300 rounded-lg px-4 py-1.5">↓ Export Users</button>
                                 </div>
                             </div>
 

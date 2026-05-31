@@ -19,13 +19,13 @@ import ProductManagement from "../pages/admin/ProductManagement";
 import UpdateProduct from "../pages/admin/UpdateProduct";
 import StockManagement from "../pages/admin/StockManagement";
 import CreateProductSize from "../pages/admin/CreateProductSize";
+import AdminRoute from "../components/AdminRoute";
 
 
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <Template />,
-        // Mengisi outlet
         children: [
             { path: "/", element: <App /> },
             { path: "/profile", element: <Profile /> },
@@ -36,15 +36,44 @@ export const router = createBrowserRouter([
             { path: "/editaddress/:id", element: <EditAddress /> },
             { path: "/productlist", element: <ProductList /> },
             { path: "/product/:id", element: <DetailProduct /> },
-            { path: "/checkout/", element: <CheckOut /> },
-            { path: "/admin/dashboard", element: <Dashboard/> },
-            { path: "/admin/usermanagement", element: <UserManagement/> },
-            { path: "/admin/productmanagement", element: <ProductManagement/> },
-            { path: "/admin/updateproduct/:id", element: <UpdateProduct/> },
-            { path: "/admin/updateuser/:id", element: <UpdateUser/> },
-            { path: "/admin/productmanagement/:id/stock", element: <StockManagement/> },
-            { path: "/admin/productmanagement/:id/ProductSize", element: <CreateProductSize/> },
-        ]
+            { path: "/checkout", element: <CheckOut /> },
+
+        //    Khusus admindd
+            {
+                path: "/admin",
+                element: <AdminRoute />,
+                children: [
+                    {
+                        path: "dashboard",
+                        element: <Dashboard />,
+                    },
+                    {
+                        path: "usermanagement",
+                        element: <UserManagement />,
+                    },
+                    {
+                        path: "productmanagement",
+                        element: <ProductManagement />,
+                    },
+                    {
+                        path: "updateproduct/:id",
+                        element: <UpdateProduct />,
+                    },
+                    {
+                        path: "updateuser/:id",
+                        element: <UpdateUser />,
+                    },
+                    {
+                        path: "productmanagement/:id/stock",
+                        element: <StockManagement />,
+                    },
+                    {
+                        path: "productmanagement/:id/ProductSize",
+                        element: <CreateProductSize />,
+                    },
+                ],
+            },
+        ],
     },
     {
         path: "/signup",
@@ -54,4 +83,4 @@ export const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
     },
-])
+]);

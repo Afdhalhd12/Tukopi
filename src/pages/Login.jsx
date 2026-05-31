@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import ButtonComp from "../components/ButtonComp";
 import { useState } from "react";
+import api from "../utils/API";
+import Swal from "sweetalert2";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -14,41 +16,42 @@ export default function Login() {
         e.preventDefault();
 
         try {
-            const response = await fetch("http://localhost:3000/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email,
-                    password
-                }),
+            const { data } = await api.post("/login", {
+                email,
+                password,
             });
 
-            const data = await response.json();
-            // console.log(data);
-            if (!response.ok) {
-                throw new Error(data.message || "Login gagal");
-            }
-
             localStorage.setItem("token", data.data.token);
+            localStorage.setItem("role", data.data.data.role);
 
+            await Swal.fire({
+                toast: true,
+                position: "top-end",
+                icon: "success",
+                title: "Login berhasil",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+            });
 
             if (data.data.data.role === "admin") {
                 navigate("/admin/usermanagement");
             } else {
                 navigate("/");
             }
-            
-            setMessage(data.message || "Login berhasil");
-            alert(data.message)
-
 
         } catch (error) {
-            setMessage(error.message);
-            alert(error.message)
+            Swal.fire({
+                icon: "error",
+                title: "Login Gagal",
+                text:
+                    error.response?.data?.message ||
+                    error.message ||
+                    "Terjadi kesalahan",
+                confirmButtonColor: "#ef4444",
+            });
         }
-    }
+    };
     return (
         <>
             <div className="grid grid-cols-1 md:grid-cols-8">

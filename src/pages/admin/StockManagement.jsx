@@ -4,6 +4,7 @@ import AdminBar from "../../components/AdminBar";
 import api from "../../utils/API";
 import { MdOutlineEdit } from "react-icons/md";
 import { HiOutlinePlusSmall } from "react-icons/hi2";
+import Swal from "sweetalert2";
 
 export default function StockManagement() {
     const { id } = useParams();
@@ -44,7 +45,13 @@ export default function StockManagement() {
                     p.id === selectedProduct.id ? { ...p, stock: newStock } : p
                 )
             );
-            alert(response.data.message);
+            await Swal.fire({
+                icon: "success",
+                title: "Berhasil Memperbarui Stock",
+                text: "Sampai jumpa kembali!",
+                timer: 1500,
+                showConfirmButton: false,
+            });
             closeModal();
         } catch (error) {
             setMessage(error.response?.data?.message || error.message);
