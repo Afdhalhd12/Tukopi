@@ -45,16 +45,16 @@ export default function Dashboard() {
     const totalCancelled = cancelled.length;
 
     // Buat itung berapa total nya
-    const deliveredTotal = orders.filter(order => order.status === "delivered").length;
     const processingTotal = orders.filter(order => order.status === "processing").length;
-    const pendingTotal = orders.filter(order => order.status === "pending").length;
+    const shippedTotal = orders.filter(order => order.status === "shipped").length;
+    const deliveredTotal = orders.filter(order => order.status === "delivered").length;
     const cancelledTotal = orders.filter(order => order.status === "cancelled").length;
 
     const totalOrders = orders.length || 1;
     // Buat persenan nya nanti
-    const deliveredPercent = Math.round((deliveredTotal / totalOrders) * 100);
     const processingPercent = Math.round((processingTotal / totalOrders) * 100);
-    const pendingPercent = Math.round((pendingTotal / totalOrders) * 100);
+    const shippedPercent = Math.round((shippedTotal / totalOrders) * 100);
+    const deliveredPercent = Math.round((deliveredTotal / totalOrders) * 100);
     const cancelledPercent = Math.round((cancelledTotal / totalOrders) * 100);
 
     // Bikin object kosong untuk nyimpen total penjualan per brand
@@ -106,7 +106,7 @@ export default function Dashboard() {
                 }
             },
             title: {
-                display: false, 
+                display: false,
             },
         },
         scales: {
@@ -184,15 +184,6 @@ export default function Dashboard() {
                             <div className="space-y-3">
                                 <div>
                                     <div className="flex justify-between text-xs text-gray-500 mb-1">
-                                        <span className="font-medium font-inter">Delivered</span>
-                                        <span className="font-inter">{deliveredPercent}%</span>
-                                    </div>
-                                    <div className="w-full bg-gray-100 rounded-full h-2">
-                                        <div className="bg-green-400 h-2 rounded-full" style={{ width: `${deliveredPercent}%` }} />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="flex justify-between text-xs text-gray-500 mb-1">
                                         <span className="font-medium font-inter">Processing</span>
                                         <span className="font-inter">{processingPercent}%</span>
                                     </div>
@@ -202,11 +193,20 @@ export default function Dashboard() {
                                 </div>
                                 <div>
                                     <div className="flex justify-between text-xs text-gray-500 mb-1">
-                                        <span className="font-medium font-inter">Pending</span>
-                                        <span className="font-inter">{pendingPercent}%</span>
+                                        <span className="font-medium font-inter">Shipped</span>
+                                        <span className="font-inter">{shippedPercent}%</span>
                                     </div>
                                     <div className="w-full bg-gray-100 rounded-full h-2">
-                                        <div className="bg-yellow-400 h-2 rounded-full" style={{ width: `${pendingPercent}%` }} />
+                                        <div className="bg-purple-400 h-2 rounded-full" style={{ width: `${shippedPercent}%` }} />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="flex justify-between text-xs text-gray-500 mb-1">
+                                        <span className="font-medium font-inter">Delivered</span>
+                                        <span className="font-inter">{deliveredPercent}%</span>
+                                    </div>
+                                    <div className="w-full bg-gray-100 rounded-full h-2">
+                                        <div className="bg-green-400 h-2 rounded-full" style={{ width: `${deliveredPercent}%` }} />
                                     </div>
                                 </div>
                                 <div>
