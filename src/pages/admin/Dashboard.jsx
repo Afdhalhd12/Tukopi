@@ -1,7 +1,17 @@
 import AdminBar from "../../components/AdminBar";
 import { useState, useEffect } from "react";
 import api from "../../utils/API";
-
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+// register elemenr chart agar bisa dipakai
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
 export default function Dashboard() {
     const [orders, setOrders] = useState([]);
 
@@ -47,6 +57,68 @@ export default function Dashboard() {
     const pendingPercent = Math.round((pendingTotal / totalOrders) * 100);
     const cancelledPercent = Math.round((cancelledTotal / totalOrders) * 100);
 
+    // Bikin object kosong untuk nyimpen total penjualan per brand
+    const brandSales = {};
+
+    // Looping data order 
+    validOrders.forEach((order) => {
+        order.items?.forEach((item) => {
+            const brandName = item.ProductSize?.Product?.brand || "Brand Unknown";
+            const qty = item.qty || 1;
+
+            // Kalau brand udah ada di object, tambahin qty-nya. Kalau belum, bikin baru.
+            if (brandSales[brandName]) {
+                brandSales[brandName] += qty;
+            } else {
+                brandSales[brandName] = qty;
+            }
+        });
+    });
+
+    // Urutin brand dari yang paling banyak dibeli ke paling sedikit, lalu ambil top 5 aja biar chart gak kepenuhan
+    const sortedBrands = Object.keys(brandSales).sort((a, b) => brandSales[b] - brandSales[a]);
+    const topBrands = sortedBrands.slice(0, 5); // Ambil 5 brand teratas
+
+    //  Siapin data untuk Chart.js
+    const chartData = {
+        labels: topBrands, // Sumbu X (Nama Brand)
+        datasets: [
+            {
+                label: "Jumlah Produk Terjual",
+                data: topBrands.map(brand => brandSales[brand]), // Sumbu Y (Jumlah Qty)
+                backgroundColor: "rgba(96, 165, 250, 0.5)", // Warna Bar (Tailwind blue-400 tp transparan dikit)
+                borderColor: "rgb(59, 130, 246)", // Border Bar (Tailwind blue-500)
+                borderWidth: 1,
+                borderRadius: 4, // Biar ujung bar-nya agak melengkung dikit (opsional)
+            },
+        ],
+    };
+
+    // 7. Siapin opsi untuk styling Chart
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false, // Biar tinggi chart bisa di atur manual via div parent
+        plugins: {
+            legend: {
+                position: "top",
+                labels: {
+                    font: { family: "'Inter', sans-serif" }
+                }
+            },
+            title: {
+                display: false, 
+            },
+        },
+        scales: {
+            y: {
+                beginAtZero: true, // Sumbu Y harus mulai dari 0
+                ticks: {
+                    stepSize: 1 // Biar angkanya genap (1, 2, 3), bukan desimal (1.5)
+                }
+            }
+        }
+    };
+
     useEffect(() => {
         getOrders();
     }, []);
@@ -61,13 +133,13 @@ export default function Dashboard() {
 
                 <div className="col-span-6 mt-20 p-8 space-y-6">
 
-                   
+
                     <div>
                         <h1 className="text-xl font-bold text-gray-800 font-oswald">Dashboard</h1>
                         <p className="text-sm text-gray-400 mt-0.5 font-inter">Overview penjualan & manajemen pesanan</p>
                     </div>
 
-                    
+
                     <div className="grid grid-cols-4 gap-4">
                         <div className="bg-white rounded-xl border border-gray-200 p-5">
                             <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider font-inter">Total Orders</p>
@@ -89,12 +161,24 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                  
-                    <div className="grid grid-cols-8 gap-4">
-                     
 
-                        
-                        <div className="col-span-8 bg-white rounded-xl border border-gray-200 p-5">
+                    <div className="grid grid-cols-8 gap-4">
+                        <div className="col-span-5 bg-white rounded-xl border border-gray-200 p-5">
+                            <h2 className="text-sm font-bold text-gray-800 mb-1 font-oswald">Brand Terlaris</h2>
+                            <p className="text-xs text-gray-400 mb-4 font-inter">Top 5 brand paling banyak dibeli</p>
+                            <div className="relative h-64 w-full">
+                                {topBrands.length > 0 ? (
+                                    <Bar data={chartData} options={chartOptions} />
+                                ) : (
+                                    <div className="flex items-center justify-center h-full text-gray-400 font-inter text-sm">
+                                        Belum ada data penjualan brand
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+
+                        <div className="col-span-3 bg-white rounded-xl border border-gray-200 p-5">
                             <h2 className="text-sm font-bold text-gray-800 mb-1 font-oswald">Status Pesanan</h2>
                             <p className="text-xs text-gray-400 mb-4 font-inter">Distribusi Pesanan</p>
                             <div className="space-y-3">
@@ -142,7 +226,7 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                   
+
                     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                         <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200">
                             <div>
