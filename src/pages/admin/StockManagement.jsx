@@ -48,13 +48,21 @@ export default function StockManagement() {
             await Swal.fire({
                 icon: "success",
                 title: "Berhasil Memperbarui Stock",
-                text: "Sampai jumpa kembali!",
+                text: "Stock Berhasil Ditambahkan!",
                 timer: 1500,
                 showConfirmButton: false,
             });
             closeModal();
         } catch (error) {
-            setMessage(error.response?.data?.message || error.message);
+            Swal.fire({
+                icon: "error",
+                title: "Gagal Memperbarui Stock",
+                text:
+                    error.response?.data?.message ||
+                    error.message ||
+                    "Terjadi kesalahan",
+                confirmButtonColor: "#ef4444",
+            });
         }
     }
 

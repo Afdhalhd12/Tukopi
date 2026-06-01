@@ -123,7 +123,7 @@ export default function App() {
               data-aos-delay="100"
             >
               <img src={black} className="rounded-2xl h-105" />
-              <p className="absolute inset-1 flex items-end text-white/60 p-2 pb-10 text-sm font-inter">124 Item</p>
+              <p className="absolute inset-1 flex items-end text-white/60 p-2 pb-10 text-sm font-inter">Black Item</p>
               <h3 className="absolute inset-0 flex items-end text-white font-bold p-3 text-3xl font-oswald">Black Edition</h3>
             </div>
 
@@ -136,12 +136,9 @@ export default function App() {
               <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5">
                 <div>
-                  <p className="text-sm font-inter text-white/60">20 Item</p>
+                  <p className="text-sm font-inter text-white/60">Pure Item</p>
                   <h3 className="font-oswald text-3xl font-bold text-white">Pure Motion</h3>
                 </div>
-                <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black transition hover:scale-105">
-                  →
-                </button>
               </div>
             </div>
 
@@ -152,7 +149,7 @@ export default function App() {
                 data-aos-delay="300"
               >
                 <img src={red} className="rounded-2xl h-50 w-75" />
-                <p className="absolute inset-1 flex items-end text-white/60 p-2 pb-10 text-sm font-inter">60 Item</p>
+                <p className="absolute inset-1 flex items-end text-white/60 p-2 pb-10 text-sm font-inter">Red Item</p>
                 <h3 className="absolute inset-0 flex items-end text-white font-bold p-3 text-3xl font-oswald">Red Impact</h3>
               </div>
               <div
@@ -161,7 +158,7 @@ export default function App() {
                 data-aos-delay="400"
               >
                 <img src={brown} className="rounded-2xl h-50 w-75 mt-5" />
-                <p className="absolute inset-1 flex items-end text-white/60 p-2 pb-10 text-sm font-inter">50 Item</p>
+                <p className="absolute inset-1 flex items-end text-white/60 p-2 pb-10 text-sm font-inter">Golden Item</p>
                 <h3 className="absolute inset-0 flex items-end text-white font-bold p-3 text-3xl font-oswald">Golden Street</h3>
               </div>
             </div>

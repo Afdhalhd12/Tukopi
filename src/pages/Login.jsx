@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import ButtonComp from "../components/ButtonComp";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import api from "../utils/API";
 import Swal from "sweetalert2";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function Login() {
+    const { login } = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
@@ -23,6 +25,8 @@ export default function Login() {
 
             localStorage.setItem("token", data.data.token);
             localStorage.setItem("role", data.data.data.role);
+
+            login();
 
             await Swal.fire({
                 toast: true,

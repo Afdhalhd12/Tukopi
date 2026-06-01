@@ -6,6 +6,8 @@ import ButtonComp from "../components/buttonComp";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../utils/API";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 
 
@@ -25,7 +27,7 @@ export default function Address() {
     async function handleDelete(id) {
         const confirmDelete = window.confirm("Yakin ingin menghapus alamat ini?");
 
-        if(!confirmDelete){
+        if (!confirmDelete) {
             return;
         }
 
@@ -128,9 +130,9 @@ export default function Address() {
 
                                         <div className="flex gap-2">
                                             <Link to={"/editaddress/" + address.id}>
-                                            <button className="w-8 h-8 border border-[#E5E5E5] bg-[#f8f8f8] rounded-xl flex items-center justify-center hover:bg-[#E5E5E5] transition">
-                                                <MdOutlineEdit size={15} className="text-[#737373]" />
-                                            </button>
+                                                <button className="w-8 h-8 border border-[#E5E5E5] bg-[#f8f8f8] rounded-xl flex items-center justify-center hover:bg-[#E5E5E5] transition">
+                                                    <MdOutlineEdit size={15} className="text-[#737373]" />
+                                                </button>
                                             </Link>
                                             <button onClick={() => handleDelete(address.id)} className="w-8 h-8 border border-[#E5E5E5] bg-[#f8f8f8] rounded-xl flex items-center justify-center hover:bg-red-50 transition">
                                                 <MdOutlineDelete size={15} className="text-red-500" />

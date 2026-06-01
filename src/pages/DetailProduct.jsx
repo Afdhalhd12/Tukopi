@@ -3,6 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import ButtonComp from "../components/ButtonComp";
 import adidas from "../assets/adidas.jpg";
+import AOS from "aos";
+import Swal from "sweetalert2";
+import api from "../utils/API";
 
 export default function DetailProduct() {
     const { id } = useParams();
@@ -73,6 +76,42 @@ export default function DetailProduct() {
         });
     };
 
+    async function handleAddToCart() {
+        try {
+
+            if (!selectedSize) {
+                alert("Pilih size terlebih dahulu");
+                return;
+            }
+
+            const response = await api.post("/order/cart", {
+                product_size_id: selectedSize,
+                qty: 1
+            });
+
+            await Swal.fire({
+                toast: true,
+                position: "top-end",
+                icon: "success",
+                title: "Berhasil menambahkan product kedalam keranjang",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+            });
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Gagal menambahkan product",
+                text:
+                    error.response?.data?.message ||
+                    error.message ||
+                    "Terjadi kesalahan",
+                confirmButtonColor: "#ef4444",
+            });
+        }
+    }
+
+
     useEffect(() => {
         getProductDetail();
         getProductSizes();
@@ -107,7 +146,7 @@ export default function DetailProduct() {
                         </h1>
 
                         <p className="font-inter text-sm mt-5">
-                            Rp. {product.price}
+                            Rp. {product.price.toLocaleString('id-ID')}
                         </p>
 
                         <p className="text-[#737373] text-justify mt-5">
@@ -150,13 +189,9 @@ export default function DetailProduct() {
                         <div className="mt-20">
 
                             <button onClick={handleOrderNow} className="rounded-xl border border-[#E5E5E5] w-full font-inter p-3 text-sm bg-[#D4F931]">Order Now</button>
+                            <button onClick={handleAddToCart} className="rounded-xl border border-[#E5E5E5] w-full font-inter p-3 text-sm bg-white mt-3">Add To Cart</button>
 
-                            <ButtonComp
-                                text={"Add to Cart"}
-                                styling={
-                                    "rounded-xl border border-[#E5E5E5] w-full font-inter p-3 text-sm bg-white mt-3"
-                                }
-                            />
+
                         </div>
                     </div>
 

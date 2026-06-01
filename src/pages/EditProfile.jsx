@@ -3,6 +3,8 @@ import red from "../assets/red.jpg";
 import ButtonComp from "../components/buttonComp";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import api from "../utils/API";
+import Swal from "sweetalert2";
 
 export default function EditProfile() {
     const token = localStorage.getItem("token");
@@ -11,28 +13,19 @@ export default function EditProfile() {
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [photoProfile, setPhotoProfile] = useState(null);
+    const [oldImage, setOldImage] = useState("");
     const [message, setMessage] = useState("");
 
     const navigate = useNavigate();
 
     async function getProfile() {
-        const url = "http://localhost:3000/me";
 
         try {
-            const response = await fetch(url, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await api.get("/me");
 
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-
-            const result = await response.json();
-
-            setName(result.data.name);
-            setEmail(result.data.email);
+            setName(response.data.data.name);
+            setEmail(response.data.data.email);
+            setOldImage(response.data.data.photoProfile);
 
         } catch (error) {
             console.log(error.message);
@@ -43,9 +36,8 @@ export default function EditProfile() {
         getProfile();
     }, []);
 
-    const handleSubmit = async (e) => {
+   const handleSubmit = async (e) => {
         e.preventDefault();
-
         const formData = new FormData();
 
         formData.append("name", name);
@@ -58,29 +50,23 @@ export default function EditProfile() {
         if (photoProfile) {
             formData.append("photoProfile", photoProfile);
         }
-
         try {
-            const response = await fetch("http://localhost:3000/updateuser", {
-                method: "PUT",
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                body: formData
+            const response = await api.put("/updateuser", formData);
+
+            await Swal.fire({
+                icon: "success",
+                title: "Berhasil Memperbarui data Pengguna",
+                text: "Sampai jumpa kembali!",
+                timer: 1500,
+                showConfirmButton: false,
             });
 
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.message || "Failed to update data");
-            }
-
-            alert(result.message);
             navigate("/profile");
 
         } catch (error) {
             setMessage(error.message);
         }
-    };
+    }
 
     return (
         <div className="bg-[#f8f8f8] min-h-screen">
@@ -96,10 +82,10 @@ export default function EditProfile() {
 
                                 <div className="flex items-center gap-3">
                                     <img
-                                        src={
+                                       src={
                                             photoProfile
-                                                ? URL.createObjectURL(photoProfile)
-                                                : red
+                                                ? URL.createObjectURL(photoProfile) : oldImage
+
                                         }
                                         className="w-35 h-35 rounded-full object-cover"
                                     />

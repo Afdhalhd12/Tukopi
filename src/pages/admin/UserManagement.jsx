@@ -94,6 +94,14 @@ export default function UserManagement() {
         }
     }
 
+    const handleExport = () => {
+      
+        const baseUrl = api.defaults.baseURL || "http://localhost:3000"; 
+        
+        // Langsung arahkan browser ke endpoint download
+        window.open(`${baseUrl}/export`, "_blank");
+    };
+
     useEffect(() => {
         getUsers();
     }, [currentPage, search, sort]);
@@ -165,7 +173,7 @@ export default function UserManagement() {
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <span className="text-sm text-gray-500">Total Users: <b className="text-gray-800">{totalUsers}</b></span>
-                                    <button className="text-sm font-semibold text-gray-700 border border-gray-300 rounded-lg px-4 py-1.5">↓ Export Users</button>
+                                    <button onClick={handleExport}  className="text-sm font-semibold text-gray-700 border border-gray-300 rounded-lg px-4 py-1.5">↓ Export Users</button>
                                 </div>
                             </div>
 

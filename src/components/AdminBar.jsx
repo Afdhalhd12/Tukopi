@@ -4,9 +4,29 @@ import { LuBox } from "react-icons/lu";
 import { MdOutlinePayment, MdProductionQuantityLimits } from "react-icons/md";
 import { RiDashboardHorizontalLine } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
+import api from "../utils/API";
+import { useEffect, useState } from "react";
 
 
 export default function AdminBar() {
+    const [user, setUser] = useState(null);
+
+    async function getProfile() {
+
+        try {
+            const response = await api.get("/me");
+
+            setUser(response.data.data);
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    useEffect(() => {
+        getProfile();
+    }, [])
+
     const location = useLocation();
     const isUserManagementActive = location.pathname === "/admin/usermanagement" || location.pathname.startsWith("/admin/updateuser/");
     const isProductManagementActive = location.pathname === "/admin/productmanagement" || location.pathname.startsWith("/admin/updateproduct/") || location.pathname.startsWith("/admin/productmanagement") || location.pathname === "/admin/createproduct";
@@ -15,8 +35,8 @@ export default function AdminBar() {
             <div>
                 <aside className="fixed left-0 lg:flex flex-col h-screen border-r w-80 border-[#d1cece] bg-white">
                     <div className="px-4 mb-6 mt-20">
-                        <div className="font-headline-md text-headline-md text-primary text-2xl mb-1 font-oswald">Afdhal Hadi Solahudin</div>
-                        <div className="font-label-bold text-label-bold text-secondary text-[#D4F931] font-inter mt-2">Admin</div>
+                        <div className="font-headline-md text-headline-md text-primary text-2xl mb-1 font-oswald">{user?.name}</div>
+                        <div className="font-label-bold text-label-bold text-secondary text-[#D4F931] font-inter mt-2">{user?.role}</div>
                     </div>
                     <div className="px-4 mb-6 mt-1">
                         <div className="">

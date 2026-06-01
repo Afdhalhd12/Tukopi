@@ -34,9 +34,23 @@ export default function Dashboard() {
     const totalProcess = process.length;
     const totalCancelled = cancelled.length;
 
+    // Buat itung berapa total nya
+    const deliveredTotal = orders.filter(order => order.status === "delivered").length;
+    const processingTotal = orders.filter(order => order.status === "processing").length;
+    const pendingTotal = orders.filter(order => order.status === "pending").length;
+    const cancelledTotal = orders.filter(order => order.status === "cancelled").length;
+
+    const totalOrders = orders.length || 1;
+    // Buat persenan nya nanti
+    const deliveredPercent = Math.round((deliveredTotal / totalOrders) * 100);
+    const processingPercent = Math.round((processingTotal / totalOrders) * 100);
+    const pendingPercent = Math.round((pendingTotal / totalOrders) * 100);
+    const cancelledPercent = Math.round((cancelledTotal / totalOrders) * 100);
+
     useEffect(() => {
         getOrders();
     }, []);
+
 
     return (
         <div className="bg-[#f8f8f8] min-h-screen">
@@ -47,13 +61,13 @@ export default function Dashboard() {
 
                 <div className="col-span-6 mt-20 p-8 space-y-6">
 
-                    {/* Title */}
+                   
                     <div>
                         <h1 className="text-xl font-bold text-gray-800 font-oswald">Dashboard</h1>
                         <p className="text-sm text-gray-400 mt-0.5 font-inter">Overview penjualan & manajemen pesanan</p>
                     </div>
 
-                    {/* Stat Cards */}
+                    
                     <div className="grid grid-cols-4 gap-4">
                         <div className="bg-white rounded-xl border border-gray-200 p-5">
                             <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider font-inter">Total Orders</p>
@@ -75,102 +89,60 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                    {/* Chart + Status */}
+                  
                     <div className="grid grid-cols-8 gap-4">
+                     
 
-                        {/* Bar Chart */}
-                        <div className="col-span-5 bg-white rounded-xl border border-gray-200 p-5">
-                            <div className="flex items-center justify-between mb-4">
-                                <div>
-                                    <h2 className="text-sm font-bold text-gray-800 font-oswald">Penjualan per Bulan</h2>
-                                    <p className="text-xs text-gray-400 font-inter">Januari – Juni 2025</p>
-                                </div>
-                                <span className="text-xs bg-[#D4F931] text-gray-800 font-semibold px-3 py-1 rounded-full font-inter">2025</span>
-                            </div>
-                            <div className="flex items-end gap-3 h-40">
-                                <div className="flex-1 flex flex-col items-center gap-1">
-                                    <span className="text-[10px] text-gray-400 font-inter">$6.2k</span>
-                                    <div className="w-full bg-[#0A0A0A] rounded-t-lg" style={{ height: "60%" }} />
-                                    <span className="text-xs text-gray-500 font-inter">Jan</span>
-                                </div>
-                                <div className="flex-1 flex flex-col items-center gap-1">
-                                    <span className="text-[10px] text-gray-400 font-inter">$4.8k</span>
-                                    <div className="w-full bg-[#0A0A0A] rounded-t-lg" style={{ height: "45%" }} />
-                                    <span className="text-xs text-gray-500 font-inter">Feb</span>
-                                </div>
-                                <div className="flex-1 flex flex-col items-center gap-1">
-                                    <span className="text-[10px] text-gray-400 font-inter">$8.1k</span>
-                                    <div className="w-full bg-[#0A0A0A] rounded-t-lg" style={{ height: "75%" }} />
-                                    <span className="text-xs text-gray-500 font-inter">Mar</span>
-                                </div>
-                                <div className="flex-1 flex flex-col items-center gap-1">
-                                    <span className="text-[10px] text-gray-400 font-inter">$5.9k</span>
-                                    <div className="w-full bg-[#0A0A0A] rounded-t-lg" style={{ height: "55%" }} />
-                                    <span className="text-xs text-gray-500 font-inter">Apr</span>
-                                </div>
-                                <div className="flex-1 flex flex-col items-center gap-1">
-                                    <span className="text-[10px] text-gray-400 font-inter">$9.7k</span>
-                                    <div className="w-full bg-[#D4F931] rounded-t-lg" style={{ height: "90%" }} />
-                                    <span className="text-xs text-gray-500 font-inter">Mei</span>
-                                </div>
-                                <div className="flex-1 flex flex-col items-center gap-1">
-                                    <span className="text-[10px] text-gray-400 font-inter">$7.5k</span>
-                                    <div className="w-full bg-[#0A0A0A] rounded-t-lg" style={{ height: "70%" }} />
-                                    <span className="text-xs text-gray-500 font-inter">Jun</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Status Distribution */}
-                        <div className="col-span-3 bg-white rounded-xl border border-gray-200 p-5">
+                        
+                        <div className="col-span-8 bg-white rounded-xl border border-gray-200 p-5">
                             <h2 className="text-sm font-bold text-gray-800 mb-1 font-oswald">Status Pesanan</h2>
-                            <p className="text-xs text-gray-400 mb-4 font-inter">Distribusi bulan ini</p>
+                            <p className="text-xs text-gray-400 mb-4 font-inter">Distribusi Pesanan</p>
                             <div className="space-y-3">
                                 <div>
                                     <div className="flex justify-between text-xs text-gray-500 mb-1">
                                         <span className="font-medium font-inter">Delivered</span>
-                                        <span className="font-inter">66%</span>
+                                        <span className="font-inter">{deliveredPercent}%</span>
                                     </div>
                                     <div className="w-full bg-gray-100 rounded-full h-2">
-                                        <div className="bg-green-400 h-2 rounded-full" style={{ width: "66%" }} />
+                                        <div className="bg-green-400 h-2 rounded-full" style={{ width: `${deliveredPercent}%` }} />
                                     </div>
                                 </div>
                                 <div>
                                     <div className="flex justify-between text-xs text-gray-500 mb-1">
                                         <span className="font-medium font-inter">Processing</span>
-                                        <span className="font-inter">17%</span>
+                                        <span className="font-inter">{processingPercent}%</span>
                                     </div>
                                     <div className="w-full bg-gray-100 rounded-full h-2">
-                                        <div className="bg-blue-400 h-2 rounded-full" style={{ width: "17%" }} />
+                                        <div className="bg-blue-400 h-2 rounded-full" style={{ width: `${processingPercent}%` }} />
                                     </div>
                                 </div>
                                 <div>
                                     <div className="flex justify-between text-xs text-gray-500 mb-1">
                                         <span className="font-medium font-inter">Pending</span>
-                                        <span className="font-inter">15%</span>
+                                        <span className="font-inter">{pendingPercent}%</span>
                                     </div>
                                     <div className="w-full bg-gray-100 rounded-full h-2">
-                                        <div className="bg-yellow-400 h-2 rounded-full" style={{ width: "15%" }} />
+                                        <div className="bg-yellow-400 h-2 rounded-full" style={{ width: `${pendingPercent}%` }} />
                                     </div>
                                 </div>
                                 <div>
                                     <div className="flex justify-between text-xs text-gray-500 mb-1">
                                         <span className="font-medium font-inter">Cancelled</span>
-                                        <span className="font-inter">3%</span>
+                                        <span className="font-inter">{cancelledPercent}%</span>
                                     </div>
                                     <div className="w-full bg-gray-100 rounded-full h-2">
-                                        <div className="bg-red-400 h-2 rounded-full" style={{ width: "3%" }} />
+                                        <div className="bg-red-400 h-2 rounded-full" style={{ width: `${cancelledPercent}%` }} />
                                     </div>
                                 </div>
                             </div>
                             <div className="mt-5 pt-4 border-t border-gray-100">
                                 <p className="text-xs text-gray-400 font-inter">Total pesanan</p>
-                                <p className="text-2xl font-bold text-gray-800 font-oswald">-</p>
+                                <p className="text-2xl font-bold text-gray-800 font-oswald">{orders.length}</p>
                             </div>
                         </div>
                     </div>
 
-                    {/* Order Table */}
+                   
                     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                         <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200">
                             <div>

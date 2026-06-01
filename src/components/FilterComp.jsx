@@ -131,21 +131,6 @@ export default function FilterComp({ brands, onBrandChange, categories, onCatego
         ))}
       </div>
 
-      {/* Ukuran */}
-      <div className="px-4 py-5">
-        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em] px-2 mb-3">Size (EU)</p>
-        <div className="flex flex-wrap gap-2 px-2">
-          <button className="w-12 h-10 rounded-xl text-[13px] font-medium bg-gray-50 border border-gray-200 text-gray-500 hover:border-[#D4F931] hover:bg-[#f7fce4] hover:text-[#3a5000] transition-all">38</button>
-          <button className="w-12 h-10 rounded-xl text-[13px] font-medium bg-gray-50 border border-gray-200 text-gray-500 hover:border-[#D4F931] hover:bg-[#f7fce4] hover:text-[#3a5000] transition-all">39</button>
-          <button className="w-12 h-10 rounded-xl text-[13px] font-medium bg-gray-50 border border-gray-200 text-gray-500 hover:border-[#D4F931] hover:bg-[#f7fce4] hover:text-[#3a5000] transition-all">40</button>
-          <button className="w-12 h-10 rounded-xl text-[13px] font-medium bg-gray-50 border border-gray-200 text-gray-500 hover:border-[#D4F931] hover:bg-[#f7fce4] hover:text-[#3a5000] transition-all">41</button>
-          <button className="w-12 h-10 rounded-xl text-[13px] font-medium bg-gray-50 border border-gray-200 text-gray-500 hover:border-[#D4F931] hover:bg-[#f7fce4] hover:text-[#3a5000] transition-all">42</button>
-          <button className="w-12 h-10 rounded-xl text-[13px] font-medium bg-gray-50 border border-gray-200 text-gray-500 hover:border-[#D4F931] hover:bg-[#f7fce4] hover:text-[#3a5000] transition-all">43</button>
-          <button className="w-12 h-10 rounded-xl text-[13px] font-medium bg-gray-50 border border-gray-200 text-gray-500 hover:border-[#D4F931] hover:bg-[#f7fce4] hover:text-[#3a5000] transition-all">44</button>
-          <button className="w-12 h-10 rounded-xl text-[13px] font-medium bg-gray-50 border border-gray-200 text-gray-500 hover:border-[#D4F931] hover:bg-[#f7fce4] hover:text-[#3a5000] transition-all">45</button>
-        </div>
-      </div>
-
     </aside>
   );
 }

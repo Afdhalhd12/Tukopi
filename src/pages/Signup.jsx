@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import ButtonComp from "../components/ButtonComp";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import api from "../utils/API";
 
 export default function Signup() {
     const [name, setName] = useState("");
@@ -11,35 +13,34 @@ export default function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
-            const response = await fetch("http://localhost:3000/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type" : "application/json",
-                },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    password
-                }) 
+            const response = await api.post("/signup", {
+                name,
+                email,
+                password
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || "Signup gagal");
-            }
-
-            setMessage(data.message || "Signup berhasil");
-            alert(data.message);
-            navigate('/login');
-
+            await Swal.fire({
+                icon: "success",
+                title: "Berhasil Membuat Akun Pengguna",
+                text: "Ayo Login!",
+                timer: 1500,
+                showConfirmButton: false,
+            });
+            navigate("/login");
 
         } catch (error) {
-            setMessage(error.message);
+            Swal.fire({
+                icon: "error",
+                title: "Gagal Membuat akkun",
+                text:
+                    error.response?.data?.message ||
+                    error.message ||
+                    "Terjadi kesalahan",
+                confirmButtonColor: "#ef4444",
+            });
         }
-    };
+    }
     return (
         <>
             <div className="grid grid-cols-1 md:grid-cols-8">

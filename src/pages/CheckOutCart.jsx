@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import api from "../utils/API";
+import api from "../utils/api.js";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-export default function CheckOut() {
+export default function CheckOutCart() {
     const [addresses, setAddresses] = useState([]);
     const [payments, setPayments] = useState([]);
-
+    const [cart, setCart] = useState(null);
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [selectedPayment, setSelectedPayment] = useState(null);
-
-    const { state } = useLocation();
-    const totalPrice = state.product.price * state.qty;
-    const price = state.product.price
     const navigate = useNavigate();
 
     async function getAddress() {
@@ -38,6 +34,24 @@ export default function CheckOut() {
             const response = await api.get("/payment");
 
             setPayments(response.data.data);
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Gagal",
+                text:
+                    error.response?.data?.message ||
+                    error.message ||
+                    "Terjadi kesalahan",
+                confirmButtonColor: "#ef4444",
+            });
+        }
+    };
+
+    async function getCart() {
+        try {
+            const response = await api.get("/order/cart");
+
+            setCart(response.data.data);
         } catch (error) {
             Swal.fire({
                 icon: "error",
@@ -82,16 +96,12 @@ export default function CheckOut() {
             const data = {
                 address_id: selectedAddress,
                 payment_id: selectedPayment,
-                product_size_id: state.product_size_id,
-                qty: state.qty
             };
 
-            const response = await api.post(
-                "/order",
+            const response = await api.patch(
+                "/order/cart/checkout",
                 data
             );
-
-            console.log(response)
 
             await Swal.fire({
                 icon: "success",
@@ -100,10 +110,8 @@ export default function CheckOut() {
                 timer: 1500,
                 showConfirmButton: false,
             });
-
             const orderId = response.data.data.id;
             navigate(`/payment/${orderId}`);
-           
 
         } catch (error) {
             Swal.fire({
@@ -121,7 +129,9 @@ export default function CheckOut() {
     useEffect(() => {
         getAddress();
         getPayments();
+        getCart();
     }, []);
+
 
     return (
         <div className="min-h-screen bg-gray-50 px-6 py-8 font-inter">
@@ -150,9 +160,9 @@ export default function CheckOut() {
                                     addresses.map((address) => (
                                         <div key={address.id} onClick={() => setSelectedAddress(address.id)} className={selectedAddress === address.id ? "flex items-start gap-3 p-4 rounded-xl border border-gray-900 bg-gray-50 cursor-pointer" : "flex items-start gap-3 p-4 rounded-xl border border-gray-100 hover:border-gray-300 cursor-pointer"}>
                                             {
-                                                selectedAddress === address.id ? <div className="mt-0.5 w-4 h-4 rounded-full border-2 border-gray-900 flex items-center justify-center flex-shrink-0">
+                                                selectedAddress === address.id ? <div className="mt-0.5 w-4 h-4 rounded-full border-2 border-gray-900 flex items-center justify-center shrink-0">
                                                     <div className="w-2 h-2 rounded-full bg-gray-900" />
-                                                </div> : <div className="mt-0.5 w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0" />
+                                                </div> : <div className="mt-0.5 w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center shrink-0" />
                                             }
                                             <div className="flex-1">
                                                 <p className="text-sm font-medium text-gray-900">{address.User.name}</p>
@@ -215,23 +225,27 @@ export default function CheckOut() {
                             </p>
                         </div>
 
-
-                        <div className="px-6 py-2">
-                            <div className="flex items-center gap-3 py-3 border-b border-gray-100">
-                                <img src={state.product.image} className="w-20 h-15" />
-                                <div className="flex-1">
-                                    <p className="text-sm font-medium text-gray-900">{state.product.name}</p>
-                                    <p className="text-xs text-gray-400">Qty {state.qty}</p>
+                        {
+                            cart?.items.map((item) => (
+                                <div key={item.id} className="px-6 py-2">
+                                    <div className="flex items-center gap-3 py-3 border-b border-gray-100">
+                                        <img src={item.ProductSize?.Product?.image} className="w-20 h-15" />
+                                        <div className="flex-1">
+                                            <p className="text-sm font-medium text-gray-900">{item.ProductSize?.Product?.name}</p>
+                                            <p className="text-xs text-gray-400">Qty {item.qty}</p>
+                                        </div>
+                                        <p className="text-sm font-medium text-gray-900">Rp. {(item.price * item.qty).toLocaleString("id-ID")}</p>
+                                    </div>
                                 </div>
-                                <p className="text-sm font-medium text-gray-900">Rp {price.toLocaleString("id-ID")}</p>
-                            </div>
-                        </div>
+                            ))
+                        }
+
 
 
                         <div className="px-6 pt-4 pb-6 bg-gray-50">
                             <div className="flex justify-between items-baseline mb-5">
                                 <span className="text-sm text-gray-500">Total</span>
-                                <span className="font-oswald text-2xl text-gray-900 tracking-tight">Rp {totalPrice.toLocaleString("id-ID")}</span>
+                                <span className="font-oswald text-2xl text-gray-900 tracking-tight">Rp. {cart?.totalPrice.toLocaleString("id-ID")}</span>
                             </div>
 
                             <button onClick={handleOrder} className="w-full py-3.5 bg-gray-900 text-white text-sm font-medium rounded-xl flex items-center justify-center gap-2 hover:opacity-80 active:scale-[0.99] transition-all">
@@ -248,5 +262,5 @@ export default function CheckOut() {
                 </div>
             </div>
         </div>
-    );
+    )
 }

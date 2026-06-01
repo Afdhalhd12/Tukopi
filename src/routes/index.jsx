@@ -22,6 +22,9 @@ import CreateProductSize from "../pages/admin/CreateProductSize";
 import AdminRoute from "../components/AdminRoute";
 import CreateProduct from "../pages/admin/CreateProduct";
 import DetailOrderHistory from "../pages/DetailOrderHistory";
+import CheckOutCart from "../pages/CheckOutCart";
+import ProtectedRoute from "../components/ProtectedRoute";
+import PaymentPage from "../pages/PaymentPage";
 
 
 export const router = createBrowserRouter([
@@ -30,18 +33,55 @@ export const router = createBrowserRouter([
         element: <Template />,
         children: [
             { path: "/", element: <App /> },
-            { path: "/profile", element: <Profile /> },
-            { path: "/orderhistory", element: <OrderHistory /> },
-            { path: "/orderhistory/:id", element: <DetailOrderHistory/> },
-            { path: "/editprofile", element: <EditProfile /> },
-            { path: "/address", element: <Address /> },
-            { path: "/createaddress", element: <CreateAddress /> },
-            { path: "/editaddress/:id", element: <EditAddress /> },
             { path: "/productlist", element: <ProductList /> },
             { path: "/product/:id", element: <DetailProduct /> },
-            { path: "/checkout", element: <CheckOut /> },
+            {
+                element: <ProtectedRoute />,
+                children: [
+                    {
+                        path: "/orderhistory",
+                        element: <OrderHistory />,
+                    },
+                    {
+                        path: "/orderhistory/:id",
+                        element: <DetailOrderHistory />,
+                    },
+                    {
+                        path: "/profile",
+                        element: <Profile />,
+                    },
+                    {
+                        path: "/editprofile",
+                        element: <EditProfile />,
+                    },
+                    {
+                        path: "/address",
+                        element: <Address />,
+                    },
+                    {
+                        path: "/createaddress",
+                        element: <CreateAddress />,
+                    },
+                    {
+                        path: "/editaddress/:id",
+                        element: <EditAddress />,
+                    },
+                    {
+                        path: "/checkout",
+                        element: <CheckOut />,
+                    },
+                    {
+                        path: "/checkout/cart",
+                        element: <CheckOutCart />,
+                    },
+                    {
+                        path: "/payment/:id",
+                        element: <PaymentPage/>,
+                    },
+                ],
+            },
 
-        //    Khusus admindd
+            //    Khusus admindd
             {
                 path: "/admin",
                 element: <AdminRoute />,
@@ -60,7 +100,7 @@ export const router = createBrowserRouter([
                     },
                     {
                         path: "createproduct",
-                        element: <CreateProduct/>,
+                        element: <CreateProduct />,
                     },
                     {
                         path: "updateproduct/:id",

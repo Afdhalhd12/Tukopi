@@ -2,6 +2,7 @@ import { useState } from "react";
 import SideBar from "../components/SideBar";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/API";
+import Swal from "sweetalert2";
 
 export default function CreateAddress() {
     const [addressLine, setAddressLine] = useState("");
@@ -26,11 +27,25 @@ export default function CreateAddress() {
                 isPrimary
             });
 
-            alert(response.data.message);
+            await Swal.fire({
+                icon: "success",
+                title: "Berhasil Membuat Alamat Pengguna",
+                text: "Sampai jumpa kembali!",
+                timer: 1500,
+                showConfirmButton: false,
+            });
             navigate("/address");
 
         } catch (error) {
-            setMessage(error.message);
+            Swal.fire({
+                icon: "error",
+                title: "Gagal Menambahkan Alamat",
+                text:
+                    error.response?.data?.message ||
+                    error.message ||
+                    "Terjadi kesalahan",
+                confirmButtonColor: "#ef4444",
+            });
         }
     }
     return (
