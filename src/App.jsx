@@ -15,7 +15,7 @@ import { FaShieldAlt } from "react-icons/fa";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import CardCommerce from "./components/CardCommerce";
 import NavBar from "./components/NavBar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SwiperComponent from "./components/SwiperComponent";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -193,10 +193,13 @@ export default function App() {
             data-aos="zoom-in"
             data-aos-delay="100"
           >
+          <Link to="/productlist">
             <ButtonComp
               styling={"rounded-full border border-[#E5E5E5] font-inter p-2 text-sm bg-white"}
               text={"EXPLORE FULL COLLECTION"}
             />
+          </Link>
+          
           </div>
         </div>
 

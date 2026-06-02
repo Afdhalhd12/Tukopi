@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import api from "../../utils/API";
 import { useEffect, useState } from "react";
 import AdminBar from "../../components/AdminBar";
+import Swal from "sweetalert2";
 
 export default function CreateProductSize() {
     const { id } = useParams();
@@ -21,7 +22,7 @@ export default function CreateProductSize() {
         }
     };
 
-    const handleSubmit = async (e) => {
+     async function handleSubmit(e) {
         e.preventDefault();
         try {
             if (!selectedSize) {
@@ -36,13 +37,27 @@ export default function CreateProductSize() {
             };
             const response = await api.post("/productsize", data);
 
-            alert(response.data.message);
+            await Swal.fire({
+                icon: "success",
+                title: "Size Berhasil Ditambahkan",
+                text: "Data produk berhasil ditambahkan.",
+                timer: 1500,
+                showConfirmButton: false,
+            });
             navigate("/admin/productmanagement");
 
         } catch (error) {
             setMessage(
                 error.response?.data?.message || error.message
             );
+            Swal.fire({
+                icon: "error",
+                title: "Gagal Membuat Produk",
+                text:
+                    error.response?.data?.message ||
+                    error.message ||
+                    "Terjadi kesalahan",
+            });
         }
     }
 
@@ -89,7 +104,6 @@ export default function CreateProductSize() {
                                         </select>
                                     </div>
 
-                                    {/* Stock */}
                                     <div className="mt-2">
                                         <label className="font-inter">
                                             Stock
@@ -105,7 +119,6 @@ export default function CreateProductSize() {
                                         />
                                     </div>
 
-                                    {/* Error Message */}
 
                                     {message && (
                                         <p className="text-red-500 mt-4">

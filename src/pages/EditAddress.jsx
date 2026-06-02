@@ -32,7 +32,7 @@ export default function EditAddress() {
     };
 
 
-    const handleSubmit = async (e) => {
+    async function handleSubmit(e) {
         e.preventDefault();
         try {
             const response = await api.put("/address/" + id, {

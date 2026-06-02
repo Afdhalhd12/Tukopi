@@ -24,7 +24,7 @@ export default function UpdateUser() {
         }
     }
 
-    const handleSubmit = async (e) => {
+    async function handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData();
 

@@ -15,7 +15,7 @@ export default function CreateProduct() {
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+     async function handleSubmit(e) {
         e.preventDefault();
         try {
             const formData = new FormData();

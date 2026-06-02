@@ -15,7 +15,7 @@ export default function CreateAddress() {
     const navigate = useNavigate();
 
 
-    const handleSubmit = async (e) => {
+     async function handleSubmit(e) {
         e.preventDefault();
         try {
             const response = await api.post("/address", {

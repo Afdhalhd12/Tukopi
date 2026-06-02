@@ -11,7 +11,7 @@ export default function Signup() {
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+     async function handleSubmit(e) {
         e.preventDefault();
         try {
             const response = await api.post("/signup", {
