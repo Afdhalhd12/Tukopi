@@ -12,7 +12,7 @@ export default function AdminBar() {
     const [user, setUser] = useState(null);
 
     async function getProfile() {
-
+        // axios
         try {
             const response = await api.get("/me");
 

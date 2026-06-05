@@ -26,7 +26,6 @@ export default function Address() {
 
     async function handleDelete(id) {
         const confirmDelete = window.confirm("Yakin ingin menghapus alamat ini?");
-
         if (!confirmDelete) {
             return;
         }

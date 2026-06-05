@@ -67,15 +67,12 @@ export default function Profile() {
         <div className="bg-[#f8f8f8] min-h-screen">
             <div className="grid grid-cols-8">
 
-                {/* Sidebar */}
                 <div className="col-span-2">
                     <SideBar />
                 </div>
 
-                {/* Content */}
                 <div className="col-span-6 mt-20">
 
-                    {/* Profile Card */}
                     <div className="p-10">
                         <div
                             className="bg-white shadow rounded-2xl p-5"
@@ -116,11 +113,9 @@ export default function Profile() {
                         </div>
                     </div>
 
-                    {/* Stats */}
                     <div className="px-10">
                         <div className="grid grid-cols-6 gap-4">
 
-                            {/* Total Orders */}
                             <div
                                 className="col-span-2"
                                 data-aos="zoom-in"
@@ -150,7 +145,6 @@ export default function Profile() {
                                 </div>
                             </div>
 
-                            {/* delivered */}
                             <div
                                 className="col-span-2"
                                 data-aos="zoom-in"
@@ -180,7 +174,6 @@ export default function Profile() {
                                 </div>
                             </div>
 
-                            {/* terkirim */}
                             <div
                                 className="col-span-2"
                                 data-aos="zoom-in"
